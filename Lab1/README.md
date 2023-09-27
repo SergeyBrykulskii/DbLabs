@@ -25,10 +25,12 @@
 * Описание
   + Таблица клиентов
 * Поля
+  + id (int, primary key)
+  + client_category_id (int, foreign key)
   + first_name (VARCHAR(50)) - имя клиента
   + last_name (VARCHAR(50)) - фамилия клиента
   + email (VARCHAR(50)) - электронная почта клиента
-  + phone (VARCHAR(50)) - номер телефона клиента
+  + phone (CHAR(12)) - номер телефона клиента
   + password (VARCHAR(50)) - пароль клиента
 * Связи
   + один к одному с таблицей аккаунтов
@@ -38,9 +40,11 @@
 * Описание
   + Таблица сотрудников
 * Поля
+  + id (int, primary key)
+  + staff_branch_id (int, foreign key)
   + first_name (VARCHAR(50)) - имя сотрудника
   + last_name (VARCHAR(50)) - фамилия сотрудника
-  + phone (VARCHAR(50)) - номер телефона сотрудника
+  + phone (CHAR(12)) - номер телефона сотрудника
   + position (VARCHAR(50)) - должность сотрудника
   + department (VARCHAR(50)) - отдел сотрудника
 * Связи
@@ -50,6 +54,8 @@
 * Описание
   + Таблица аккаунтов клиентов
 * Поля
+  + id (int, primary key)
+  + currency_id (int, foreign key)
   + type (VARCHAR(50)) тип аккаунта
   + balance (INT) басанс аккаунта
   + opening_date (DATA) - дата открытия
@@ -63,6 +69,7 @@
 * Описание
   + Таблица валют
 * Поля
+  + id (int, primary key)
   + name (VARCHAR(50)) название валюты
   + code (INT) код валюты
   + symbol(DATA) - символ валюты
@@ -72,6 +79,8 @@
 * Описание
   + Таблица переводов
 * Поля
+  + id (int, primary key)
+  + account_id (int, foreign key)
   + amount (INT) - сумма транзакции
   + type (VARCHAR(50)) - тип транзакции
   + date (Date) - время и дата транзакции
@@ -82,6 +91,9 @@
 * Описание
   + Таблица кредитов
 * Поля
+  + id (int, primary key)
+  + account_id (int, foreign key)
+  + credit_product_id (int, foreign key)
   + amount (INT) - сумма кредита
   + issuance_date (DATE) - дата выдачи
   + repayment_period (INT) - период выплаты
@@ -92,6 +104,8 @@
 * Описание
   + Таблица депозитов
 * Поля
+  + id (int, primary key)
+  + account_id (int, foreign key)
   + type (VARCHAR(50)) - тип депозита
   + amount (INT) - сумма кредита
   + issuance_date (DATE) - дата выдачи
@@ -104,6 +118,7 @@
 * Описание
   + Таблица депозитов
 * Поля
+  + id (int, primary key)
   + name (VARCHAR(50)) - название кредитного продукта
   + type (VARCHAR(50)) - тип кредитного продукта
   + description (VARCHAR(50)) - описание кредитного продукта
@@ -116,6 +131,7 @@
 * Описание
   + Таблица категорий клиентов
 * Поля
+  + id (int, primary key)
   + name (VARCHAR(50)) - название категории
   + description (VARCHAR(50)) - описание категории
   + criteria (VARCHAR(50)) - критерии получения
@@ -126,6 +142,7 @@
 * Описание
   + Таблица филиалов банка
 * Поля
+  + id (int, primary key)
   + name (VARCHAR(50)) - название филиала
   + address (VARCHAR(50)) - адрес филиала
   + phone (VARCHAR(50)) - номер контактного телефона
