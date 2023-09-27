@@ -27,11 +27,11 @@
 * Поля
   + id (int, primary key)
   + client_category_id (int, foreign key)
-  + first_name (VARCHAR(50)) - имя клиента
-  + last_name (VARCHAR(50)) - фамилия клиента
-  + email (VARCHAR(50)) - электронная почта клиента
+  + first_name (VARCHAR(20)) - имя клиента
+  + last_name (VARCHAR(20)) - фамилия клиента
+  + email (VARCHAR(30)) - электронная почта клиента
   + phone (CHAR(12)) - номер телефона клиента
-  + password (VARCHAR(50)) - пароль клиента
+  + password (VARCHAR(20)) - пароль клиента
 * Связи
   + один к одному с таблицей аккаунтов
   + один ко многим с таблицей счетов
@@ -42,11 +42,12 @@
 * Поля
   + id (int, primary key)
   + staff_branch_id (int, foreign key)
-  + first_name (VARCHAR(50)) - имя сотрудника
-  + last_name (VARCHAR(50)) - фамилия сотрудника
+  + first_name (VARCHAR(20)) - имя сотрудника
+  + last_name (VARCHAR(20)) - фамилия сотрудника
+  + password (VARCHAR(20)) - пароль сотрудника
   + phone (CHAR(12)) - номер телефона сотрудника
-  + position (VARCHAR(50)) - должность сотрудника
-  + department (VARCHAR(50)) - отдел сотрудника
+  + position (VARCHAR(20)) - должность сотрудника
+  + department (VARCHAR(20)) - отдел сотрудника
 * Связи
   + многие ко многим с таблицей сотрудников
   + один ко многим с таблицей филиалов
@@ -56,7 +57,6 @@
 * Поля
   + id (int, primary key)
   + currency_id (int, foreign key)
-  + type (VARCHAR(50)) тип аккаунта
   + balance (INT) басанс аккаунта
   + opening_date (DATA) - дата открытия
 * Связи
@@ -70,7 +70,7 @@
   + Таблица валют
 * Поля
   + id (int, primary key)
-  + name (VARCHAR(50)) название валюты
+  + name (VARCHAR(15)) название валюты
   + code (INT) код валюты
   + symbol(DATA) - символ валюты
 * Связи
@@ -82,7 +82,7 @@
   + id (int, primary key)
   + account_id (int, foreign key)
   + amount (INT) - сумма транзакции
-  + type (VARCHAR(50)) - тип транзакции
+  + type (VARCHAR(20)) - тип транзакции
   + date (Date) - время и дата транзакции
   + description (VARCHAR(200))
 * Связи
@@ -106,7 +106,7 @@
 * Поля
   + id (int, primary key)
   + account_id (int, foreign key)
-  + type (VARCHAR(50)) - тип депозита
+  + type (VARCHAR(20)) - тип депозита
   + amount (INT) - сумма кредита
   + issuance_date (DATE) - дата выдачи
   + is_early_withdrawal (BOOL) - можно ли выводить заранее
@@ -132,10 +132,10 @@
   + Таблица категорий клиентов
 * Поля
   + id (int, primary key)
-  + name (VARCHAR(50)) - название категории
-  + description (VARCHAR(50)) - описание категории
-  + criteria (VARCHAR(50)) - критерии получения
-  + bonus (VARCHAR(50)) - бонусы категории
+  + name (VARCHAR(30)) - название категории
+  + description (VARCHAR(200)) - описание категории
+  + criteria (VARCHAR(100)) - критерии получения
+  + bonus (VARCHAR(100)) - бонусы категории
 * Связи
   + Один ко многим с таблицей клиентов
 ### Филиал банка
@@ -145,7 +145,19 @@
   + id (int, primary key)
   + name (VARCHAR(50)) - название филиала
   + address (VARCHAR(50)) - адрес филиала
-  + phone (VARCHAR(50)) - номер контактного телефона
-  + working_hours (VARCHAR(50)) - рабочее время
+  + phone (CHAR(12)) - номер контактного телефона
+  + working_hours (VARCHAR(20)) - рабочее время
 * Связи
   + Один ко многим с таблицей сотрудиков
+  + Один к одному с адресом
+### Адрес
+* Описание
+  + Таблица адресов
+* Поля
+  + id (int, primary key) 
+  + bank_brach_id (int, foreign key)
+  + city (VARCHAR(20)) город 
+  + street (VARCHAR(20)) улица
+  + house_number (INT) номер дома
+* Связи
+  + Один к одному с филиалом банка
