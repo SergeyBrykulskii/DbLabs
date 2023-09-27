@@ -25,11 +25,13 @@
 * Описание
   + Таблица клиентов
 * Поля
-  + FirstName (VARCHAR(50)) - имя клиента
-  + LastName (VARCHAR(50)) - фамилия клиента
-  + Email (VARCHAR(50)) - электронная почта клиента
-  + Phone (VARCHAR(50)) - номер телефона клиента
-  + Password (VARCHAR(50)) - пароль клиента
+  + id (int, primary key)
+  + client_category_id (int, foreign key)
+  + first_name (VARCHAR(50)) - имя клиента
+  + last_name (VARCHAR(50)) - фамилия клиента
+  + email (VARCHAR(50)) - электронная почта клиента
+  + phone (CHAR(12)) - номер телефона клиента
+  + password (VARCHAR(50)) - пароль клиента
 * Связи
   + один к одному с таблицей аккаунтов
   + один ко многим с таблицей счетов
@@ -38,97 +40,112 @@
 * Описание
   + Таблица сотрудников
 * Поля
-  + FirstName (VARCHAR(50)) - имя сотрудника
-  + LastName (VARCHAR(50)) - фамилия сотрудника
-  + Phone (VARCHAR(50)) - номер телефона сотрудника
-  + Position (VARCHAR(50)) - должность сотрудника
-  + Department (VARCHAR(50)) - отдел сотрудника
+  + id (int, primary key)
+  + staff_branch_id (int, foreign key)
+  + first_name (VARCHAR(50)) - имя сотрудника
+  + last_name (VARCHAR(50)) - фамилия сотрудника
+  + phone (CHAR(12)) - номер телефона сотрудника
+  + position (VARCHAR(50)) - должность сотрудника
+  + department (VARCHAR(50)) - отдел сотрудника
 * Связи
   + многие ко многим с таблицей сотрудников
   + один ко многим с таблицей филиалов
-### Счёт 
+### Аккаунт 
 * Описание
-  + Таблица счётов клиентов
+  + Таблица аккаунтов клиентов
 * Поля
-  + Type (VARCHAR(50)) тип счета
-  + Balance (INT) басанс счета
-  + OpeningDate (DATA) - дота открытия
+  + id (int, primary key)
+  + currency_id (int, foreign key)
+  + type (VARCHAR(50)) тип аккаунта
+  + balance (INT) басанс аккаунта
+  + opening_date (DATA) - дата открытия
 * Связи
-  + один к одному с таблицей валют
+  + многие к одному с таблицей валют
   + один ко многим с таблицей транзакций
   + один ко многим с таблицей кредитов клиента
   + один ко многим с таблицей депозитов клиента
-  + многие к одному с таблицей клиентов
+  + один к одному с таблицей клиентов
 ### Валюта
 * Описание
   + Таблица валют
 * Поля
-  + Name (VARCHAR(50)) тип счета
-  + Code (INT) басанс счета
-  + Symbol(DATA) - дота открытия
+  + id (int, primary key)
+  + name (VARCHAR(50)) название валюты
+  + code (INT) код валюты
+  + symbol(DATA) - символ валюты
 * Связи
-  + один к одному с таблицей счетов
+  + один ко многим с таблицей аккаунтов
 ### Траназкции
 * Описание
   + Таблица переводов
 * Поля
-  + Amount (INT) - сумма транзакции
-  + Type (VARCHAR(50)) - тип транзакции
-  + Date (Date) - время и дата транзакции
-  + Description (VARCHAR(200))
+  + id (int, primary key)
+  + account_id (int, foreign key)
+  + amount (INT) - сумма транзакции
+  + type (VARCHAR(50)) - тип транзакции
+  + date (Date) - время и дата транзакции
+  + description (VARCHAR(200))
 * Связи
-  + Многие к одному с таблицей счетов
+  + Многие к одному с таблицей аккаунтов
 ### Кредит
 * Описание
   + Таблица кредитов
 * Поля
-  + Amount (INT) - сумма кредита
-  + IssuanceDate (DATE) - дата выдачи
-  + RepaymentPeriod (INT) - период выплаты
+  + id (int, primary key)
+  + account_id (int, foreign key)
+  + credit_product_id (int, foreign key)
+  + amount (INT) - сумма кредита
+  + issuance_date (DATE) - дата выдачи
+  + repayment_period (INT) - период выплаты
 * Связи
-  + Многие к одному с таблицей счетов клентов
+  + Многие к одному с таблицей аккаунтов клентов
   + Многие к одному с таблицей кредитных продуктов
 ### Депозит
 * Описание
   + Таблица депозитов
 * Поля
-  + Type (VARCHAR(50)) - тип депозита
-  + Amount (INT) - сумма кредита
-  + IssuanceDate (DATE) - дата выдачи
-  + IsEarlyWithdrawal (BOOL) - можно ли выводить заранее
-  + InterestRate (INT) - процентная ставка
-  + Term (INT) - срок выдачи
+  + id (int, primary key)
+  + account_id (int, foreign key)
+  + type (VARCHAR(50)) - тип депозита
+  + amount (INT) - сумма кредита
+  + issuance_date (DATE) - дата выдачи
+  + is_early_withdrawal (BOOL) - можно ли выводить заранее
+  + interestRate (INT) - процентная ставка
+  + term (INT) - срок выдачи
 * Связи
-  + Многие к одному с таблицей счетов клентов
+  + Многие к одному с таблицей аккаунтов клентов
 ### Кредитный продукт
 * Описание
   + Таблица депозитов
 * Поля
-  + Name (VARCHAR(50)) - название кредитного продукта
-  + Type (VARCHAR(50)) - тип кредитного продукта
-  + Description (VARCHAR(50)) - описание кредитного продукта
-  + MaxAmount (INT) - максимальная сумма кредита
-  + InterestRate (INT) - процентная ставка
-  + IsActual (BOOL) - актуальный ли сейчас
+  + id (int, primary key)
+  + name (VARCHAR(50)) - название кредитного продукта
+  + type (VARCHAR(50)) - тип кредитного продукта
+  + description (VARCHAR(50)) - описание кредитного продукта
+  + max_amount (INT) - максимальная сумма кредита
+  + interest_rate (INT) - процентная ставка
+  + is_actual (BOOL) - актуальный ли сейчас
 * Связи
   + Один ко многим с таблицей кредитов
 ### Категория клиента
 * Описание
   + Таблица категорий клиентов
 * Поля
-  + Name (VARCHAR(50)) - название категории
-  + Description (VARCHAR(50)) - описание категории
-  + Criteria (VARCHAR(50)) - критерии получения
-  + Bonus (VARCHAR(50)) - бонусы категории
+  + id (int, primary key)
+  + name (VARCHAR(50)) - название категории
+  + description (VARCHAR(50)) - описание категории
+  + criteria (VARCHAR(50)) - критерии получения
+  + bonus (VARCHAR(50)) - бонусы категории
 * Связи
   + Один ко многим с таблицей клиентов
 ### Филиал банка
 * Описание
   + Таблица филиалов банка
 * Поля
-  + Name (VARCHAR(50)) - название филиала
-  + Address (VARCHAR(50)) - адрес филиала
-  + Phone (VARCHAR(50)) - номер контактного телефона
-  + WorkingHours (VARCHAR(50)) - рабочее время
+  + id (int, primary key)
+  + name (VARCHAR(50)) - название филиала
+  + address (VARCHAR(50)) - адрес филиала
+  + phone (VARCHAR(50)) - номер контактного телефона
+  + working_hours (VARCHAR(50)) - рабочее время
 * Связи
   + Один ко многим с таблицей сотрудиков
