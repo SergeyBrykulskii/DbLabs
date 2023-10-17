@@ -9,6 +9,8 @@ DROP TABLE IF EXISTS credit_product CASCADE;
 DROP TABLE IF EXISTS client_category CASCADE;
 DROP TABLE IF EXISTS bank_branch CASCADE;
 DROP TABLE IF EXISTS client_staff CASCADE;
+DROP TABLE IF EXISTS address CASCADE;
+DROP TABLE IF EXISTS working_hours CASCADE;
 
 CREATE TABLE client (
   client_id SERIAL PRIMARY KEY,
@@ -34,7 +36,6 @@ CREATE TABLE staff (
 
 CREATE TABLE account (
   account_id SERIAL PRIMARY KEY,
-  client_id INT UNIQUE NOT NULL,
   currency_id INT NOT NULL,
   balance DECIMAL DEFAULT 0.00,
   opening_date DATE DEFAULT CURRENT_DATE
@@ -94,13 +95,26 @@ CREATE TABLE client_category (
   bonus VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE bank_branch (
-  bank_branch_id SERIAL PRIMARY KEY,
-  address VARCHAR(50) UNIQUE NOT NULL,
-  bank_branch_name VARCHAR(30) NOT NULL,
-  phone CHAR(13) NOT NULL,
+CREATE TABLE working_hours (
+  working_hours_id SERIAL PRIMARY KEY,
   opening_time INTERVAL NOT NULL,
   closing_time INTERVAL NOT NULL
+);
+
+CREATE TABLE address (
+  address_id SERIAL PRIMARY KEY,
+  country VARCHAR(30) NOT NULL,
+  sity VARCHAR(30) NOT NULL,
+  street VARCHAR (30) NOT NULL,
+  house_number INT NOT NULL
+);
+
+CREATE TABLE bank_branch (
+  bank_branch_id SERIAL PRIMARY KEY,
+  working_hours_id INT NOT NULL,
+  address_id INT UNIQUE NOT NULL,
+  bank_branch_name VARCHAR(30) NOT NULL,
+  phone CHAR(13) NOT NULL
 );
 
 CREATE TABLE client_staff (
@@ -109,8 +123,7 @@ CREATE TABLE client_staff (
 );
 
 ALTER TABLE client ADD FOREIGN KEY (client_category_id) REFERENCES client_category (client_category_id);
-
-ALTER TABLE account ADD FOREIGN KEY (client_id) REFERENCES client (account_id);
+ALTER TABLE client ADD FOREIGN KEY (account_id) REFERENCES account (account_id);
 ALTER TABLE staff ADD FOREIGN KEY (bank_branch_id) REFERENCES bank_branch (bank_branch_id);
 ALTER TABLE account ADD FOREIGN KEY (currency_id) REFERENCES currency (currency_id);
 ALTER TABLE bank_transaction ADD FOREIGN KEY (account_id) REFERENCES account (account_id);
@@ -119,6 +132,8 @@ ALTER TABLE deposit ADD FOREIGN KEY (account_id) REFERENCES account (account_id)
 ALTER TABLE credit ADD FOREIGN KEY (credit_product_id) REFERENCES credit_product (credit_product_id);
 ALTER TABLE client_staff ADD FOREIGN KEY (client_id) REFERENCES client (client_id);
 ALTER TABLE client_staff ADD FOREIGN KEY (staff_id) REFERENCES staff (staff_id);
+ALTER TABLE bank_branch ADD FOREIGN KEY (working_hours_id) REFERENCES working_hours (working_hours_id);
+ALTER TABLE bank_branch ADD FOREIGN KEY (address_id) REFERENCES address (address_id);
 
 CREATE INDEX idx_email ON client(email);
 CREATE INDEX idx_client_category_id ON client(client_category_id);
